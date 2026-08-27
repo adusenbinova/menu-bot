@@ -1,0 +1,502 @@
+<title>Кухня недели</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  :root {
+    --paper: #f4f6f1;
+    --card: #ffffff;
+    --ink: #1e2a20;
+    --ink-soft: #4b5b4d;
+    --pine: #2f6b4f;
+    --pine-deep: #1f4d38;
+    --saffron: #c97c1f;
+    --saffron-soft: #f3e2c8;
+    --line: #d8dfd2;
+    --pine-tint: #e6efe6;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #121a14;
+      --card: #19231b;
+      --ink: #e9ece4;
+      --ink-soft: #a9b6a9;
+      --pine: #7bc49b;
+      --pine-deep: #a6dcc0;
+      --saffron: #e8a24b;
+      --saffron-soft: #3a3120;
+      --line: #2a3a2c;
+      --pine-tint: #1c2b20;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #121a14;
+    --card: #19231b;
+    --ink: #e9ece4;
+    --ink-soft: #a9b6a9;
+    --pine: #7bc49b;
+    --pine-deep: #a6dcc0;
+    --saffron: #e8a24b;
+    --saffron-soft: #3a3120;
+    --line: #2a3a2c;
+    --pine-tint: #1c2b20;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Karla", ui-sans-serif, system-ui, sans-serif;
+    line-height: 1.55;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .sheet {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem 4rem;
+  }
+
+  .masthead {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding-bottom: 1.6rem;
+    border-bottom: 2px solid var(--pine);
+    margin-bottom: 2rem;
+  }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pine);
+  }
+
+  .masthead h1 {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: clamp(2rem, 5vw, 2.6rem);
+    text-wrap: balance;
+    margin: 0;
+  }
+
+  .masthead .meta {
+    color: var(--ink-soft);
+    font-size: 0.95rem;
+  }
+
+  section.day {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 1.6rem 1.6rem 1.7rem;
+    margin-bottom: 1.1rem;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .day-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.35rem;
+  }
+
+  .day-name {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pine);
+  }
+
+  .dish {
+    font-family: "Fraunces", Georgia, serif;
+    font-weight: 600;
+    font-size: 1.42rem;
+    text-wrap: balance;
+    margin: 0.15rem 0 0.7rem;
+  }
+
+  .badges {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.9rem;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.78rem;
+    padding: 0.22rem 0.6rem;
+    border-radius: 999px;
+    background: var(--pine-tint);
+    color: var(--pine-deep);
+    font-weight: 600;
+  }
+  .badge.spicy { background: var(--saffron-soft); color: var(--saffron); }
+  .badge svg { width: 13px; height: 13px; flex: none; }
+
+  .protein-row {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+  }
+  .protein-grams {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    font-size: 1rem;
+    white-space: nowrap;
+  }
+  .protein-bar {
+    flex: 1;
+    height: 7px;
+    border-radius: 999px;
+    background: var(--line);
+    position: relative;
+    max-width: 220px;
+  }
+  .protein-bar .fill {
+    position: absolute;
+    top: 0; bottom: 0; left: 0;
+    background: var(--pine);
+    border-radius: 999px;
+  }
+  .protein-pct {
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  .protein-note {
+    font-size: 0.85rem;
+    color: var(--saffron);
+    background: var(--saffron-soft);
+    border-radius: 8px;
+    padding: 0.5rem 0.7rem;
+    margin-bottom: 1rem;
+  }
+
+  .day-body {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+    gap: 1.4rem;
+  }
+  @media (max-width: 560px) {
+    .day-body { grid-template-columns: 1fr; }
+  }
+
+  h4.subhead {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+  }
+
+  ul.ingredients {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.92rem;
+  }
+  ul.ingredients li {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.28rem 0;
+    border-bottom: 1px dashed var(--line);
+  }
+  ul.ingredients li:last-child { border-bottom: none; }
+  ul.ingredients .qty {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  ol.steps {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.92rem;
+  }
+  ol.steps li { padding: 0.2rem 0; }
+  ol.steps li.kid {
+    background: var(--pine-tint);
+    border-radius: 8px;
+    padding: 0.45rem 0.6rem;
+    margin: 0.3rem 0 0.3rem -0.2rem;
+    list-style: none;
+    display: flex;
+    gap: 0.45rem;
+    align-items: flex-start;
+  }
+  ol.steps li.kid svg {
+    width: 15px; height: 15px; flex: none; margin-top: 0.18rem;
+    color: var(--pine-deep);
+  }
+
+  .shopping {
+    margin-top: 2.2rem;
+  }
+  .shopping h2 {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin: 0 0 0.3rem;
+  }
+  .shopping .lede {
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    margin-bottom: 1.3rem;
+  }
+
+  .departments {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.3rem;
+  }
+  @media (max-width: 620px) {
+    .departments { grid-template-columns: 1fr; }
+  }
+
+  .dept {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .dept h3 {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pine);
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 0.35rem;
+    margin: 0 0 0.5rem;
+  }
+
+  .item {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.3rem 0;
+    font-size: 0.93rem;
+  }
+  .item input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--pine);
+    flex: none;
+  }
+  .item label {
+    flex: 1;
+    cursor: pointer;
+  }
+  .item.checked label {
+    color: var(--ink-soft);
+    text-decoration: line-through;
+  }
+  .item .amt {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    white-space: nowrap;
+  }
+
+  footer.note {
+    margin-top: 2.5rem;
+    padding-top: 1.2rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.8rem;
+    color: var(--ink-soft);
+  }
+
+  @media print {
+    body { background: #fff; }
+    .sheet { padding: 0; max-width: 100%; }
+    section.day, .dept { break-inside: avoid; }
+    .item input[type="checkbox"] { accent-color: #000; }
+  }
+</style>
+
+<div class="sheet">
+  <div class="masthead">
+    <div class="eyebrow">Кухня недели · 30.08 — 03.09.2026</div>
+    <h1>Пять ужинов, один список покупок</h1>
+    <div class="meta">Семья: 2 взрослых + 2 детей-школьников · норма белка 69–90&nbsp;г/день на взрослого</div>
+  </div>
+
+  <div id="days"></div>
+
+  <div class="shopping">
+    <h2>Список покупок</h2>
+    <p class="lede">Количества — на всю семью, на все 5 ужинов. Отмечайте по мере покупки — отметки сохраняются в этом браузере.</p>
+    <div class="departments" id="departments"></div>
+  </div>
+
+  <footer class="note">
+    Сформировано автоматически 27.08.2026. Список передаётся в корзину arbuz.kz для оформления заказа пользователем — ни один заказ не подтверждается и не оплачивается без вас.
+  </footer>
+</div>
+
+<script>
+  const KID_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c-2 3-2 5 0 7 2-2 2-4 0-7z"/><path d="M12 9c-4 0-7 3-7 7 0 3 3 6 7 6s7-3 7-6c0-4-3-7-7-7z"/></svg>';
+  const SPICY_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3c0 2-2 2-2 5 0 8 5 13 9 13s5-3 5-7"/><path d="M15 3c1 1 1 2 0 3"/></svg>';
+
+  const days = [
+    {
+      name: "Понедельник", dish: "Рыбные котлеты из хека с рисом",
+      kid: true, spicy: false,
+      protein: 32, pctLow: 36, pctHigh: 46,
+      ingredients: [["филе хека","200 г"],["рис","60 г"],["яйцо","0.25 шт"],["батон/хлеб для панировки","20 г"],["лук репчатый","20 г"]],
+      steps: [
+        "Перемолоть филе хека с луком, добавить яйцо и размоченный хлеб.",
+        {kid:"лепка котлеток и обваливание в панировке."},
+        "Обжарить котлеты на среднем огне до золотистой корочки.",
+        "Отварить рис на гарнир."
+      ]
+    },
+    {
+      name: "Вторник", dish: "Котлеты из индейки с овощным рагу",
+      kid: true, spicy: false,
+      protein: 32, pctLow: 36, pctHigh: 46,
+      ingredients: [["фарш индейки","190 г"],["батон/хлеб для панировки","20 г"],["кабачок","80 г"],["баклажан","60 г"],["помидоры","60 г"]],
+      steps: [
+        "Слепить котлеты из фарша с размоченным хлебом.",
+        {kid:"лепка котлет — простая и приятная задача."},
+        "Обжарить котлеты, отдельно потушить нарезанные овощи до мягкости.",
+        "Подавать котлеты с овощным рагу."
+      ]
+    },
+    {
+      name: "Среда", dish: "Творожно-банановые панкейки на ужин",
+      kid: true, spicy: false,
+      protein: 26, pctLow: 29, pctHigh: 38,
+      note: "Белка в этом ужине немного меньше обычного — рекомендуем добавить 100 г творога или греческого йогурта (+15–18 г белка) в качестве гарнира/дипа.",
+      ingredients: [["творог","180 г"],["банан","0.5 шт"],["яйцо","1 шт"],["мука пшеничная","25 г"],["ягоды замороженные","50 г"]],
+      steps: [
+        "Размять банан, смешать с творогом, яйцом и мукой.",
+        {kid:"мять банан вилкой и перемешивать тесто — просто и весело."},
+        "Обжарить панкейки на среднем огне с двух сторон.",
+        "Подавать с разогретыми ягодами."
+      ]
+    },
+    {
+      name: "Четверг", dish: "Куриные кесадильи с фасолью и сыром",
+      kid: true, spicy: false,
+      protein: 31, pctLow: 34, pctHigh: 45,
+      ingredients: [["куриное филе (грудка)","150 г"],["тортильи/лепёшки","3 шт"],["фасоль консервированная","60 г"],["сыр твёрдый (тёртый)","50 г"],["сметана","25 г"]],
+      steps: [
+        "Отварить или обжарить куриное филе, нарезать/разобрать на волокна.",
+        {kid:"раскладывать начинку по половине лепёшки и складывать её пополам."},
+        "Обжарить кесадилью с двух сторон до расплавления сыра.",
+        "Подавать со сметаной."
+      ]
+    },
+    {
+      name: "Пятница", dish: "Паста болоньезе с говяжьим фаршем",
+      kid: false, spicy: false,
+      protein: 31, pctLow: 34, pctHigh: 45,
+      ingredients: [["говяжий фарш","170 г"],["паста (макароны)","80 г"],["томаты консервированные","100 г"],["морковь","30 г"],["пармезан","15 г"]],
+      steps: [
+        "Обжарить фарш с мелко нарезанной морковью.",
+        "Добавить томаты, тушить соус 15–20 минут.",
+        "Отварить пасту, смешать с соусом, посыпать пармезаном.",
+        {kid:"можно доверить посыпать готовое блюдо сыром."}
+      ]
+    }
+  ];
+
+  const departments = [
+    { name: "Мясо/птица", items: [["говяжий фарш","544 г"],["куриное филе (грудка)","480 г"],["фарш индейки","608 г"],["филе хека","640 г"]] },
+    { name: "Молочные и яйца", items: [["пармезан","48 г"],["сметана","80 г"],["сыр твёрдый (тёртый)","160 г"],["творог","576 г"],["яйцо","4 шт"]] },
+    { name: "Крупы и бакалея", items: [["мука пшеничная","80 г"],["паста (макароны)","256 г"],["рис","192 г"]] },
+    { name: "Овощи и зелень", items: [["баклажан","192 г"],["банан","2 шт"],["кабачок","256 г"],["лук репчатый","64 г"],["морковь","96 г"],["помидоры","192 г"]] },
+    { name: "Консервы", items: [["томаты консервированные","320 г"],["фасоль консервированная","192 г"]] },
+    { name: "Хлеб и выпечка", items: [["батон/хлеб для панировки","128 г"],["тортильи/лепёшки","10 шт"]] },
+    { name: "Заморозка", items: [["ягоды замороженные","160 г"]] }
+  ];
+
+  const daysEl = document.getElementById("days");
+  days.forEach((d) => {
+    const section = document.createElement("section");
+    section.className = "day";
+    const badges = [];
+    if (d.kid) badges.push(`<span class="badge">${KID_ICON} готовим с детьми</span>`);
+    if (d.spicy) badges.push(`<span class="badge spicy">${SPICY_ICON} острое — детям отдельно</span>`);
+    section.innerHTML = `
+      <div class="day-head">
+        <div class="day-name">${d.name}</div>
+      </div>
+      <h3 class="dish">${d.dish}</h3>
+      <div class="badges">${badges.join("")}</div>
+      <div class="protein-row">
+        <span class="protein-grams">${d.protein} г белка</span>
+        <span class="protein-bar"><span class="fill" style="left:${d.pctLow}%; right:${100 - d.pctHigh}%"></span></span>
+        <span class="protein-pct">${d.pctLow}–${d.pctHigh}% нормы</span>
+      </div>
+      ${d.note ? `<div class="protein-note">${d.note}</div>` : ""}
+      <div class="day-body">
+        <div>
+          <h4 class="subhead">Ингредиенты (на порцию)</h4>
+          <ul class="ingredients">
+            ${d.ingredients.map(([n, q]) => `<li><span>${n}</span><span class="qty">${q}</span></li>`).join("")}
+          </ul>
+        </div>
+        <div>
+          <h4 class="subhead">Приготовление</h4>
+          <ol class="steps">
+            ${d.steps.map(s => typeof s === "string" ? `<li>${s}</li>` : `<li class="kid">${KID_ICON}<span>${s.kid}</span></li>`).join("")}
+          </ol>
+        </div>
+      </div>
+    `;
+    daysEl.appendChild(section);
+  });
+
+  let checkedState = {};
+  try { checkedState = JSON.parse(localStorage.getItem("menu-week-checklist") || "{}"); } catch (e) { checkedState = {}; }
+
+  function saveState() {
+    try { localStorage.setItem("menu-week-checklist", JSON.stringify(checkedState)); } catch (e) {}
+  }
+
+  const deptEl = document.getElementById("departments");
+  departments.forEach((dept) => {
+    const box = document.createElement("div");
+    box.className = "dept";
+    const h3 = document.createElement("h3");
+    h3.textContent = dept.name;
+    box.appendChild(h3);
+    dept.items.forEach(([name, amt]) => {
+      const id = (dept.name + "-" + name).replace(/\s+/g, "_");
+      const row = document.createElement("div");
+      row.className = "item";
+      const isChecked = !!checkedState[id];
+      if (isChecked) row.classList.add("checked");
+      row.innerHTML = `
+        <input type="checkbox" id="${id}" ${isChecked ? "checked" : ""}>
+        <label for="${id}">${name}</label>
+        <span class="amt">${amt}</span>
+      `;
+      const cb = row.querySelector("input");
+      cb.addEventListener("change", () => {
+        checkedState[id] = cb.checked;
+        row.classList.toggle("checked", cb.checked);
+        saveState();
+      });
+      box.appendChild(row);
+    });
+    deptEl.appendChild(box);
+  });
+</script>
