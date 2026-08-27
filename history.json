@@ -1,0 +1,14 @@
+{
+  "weeks": [
+    {
+      "week_start": "2026-08-30",
+      "recipe_ids": [
+        "hake_fish_cakes",
+        "turkey_cutlets_veg_stew",
+        "cottage_cheese_banana_pancakes",
+        "chicken_bean_quesadilla",
+        "beef_bolognese_pasta"
+      ]
+    }
+  ]
+}
